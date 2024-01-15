@@ -1,0 +1,81 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/OFL.txt",
+      "sha1": "e1ab9123a5fabbf4e7a6f3ea2fff504fbe351c95"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Black.ttf",
+      "sha1": "1a4a787fe73e15a57483ae503a8227539a33a652"
+    },
+    {
+      "path": "assets/fonts/Taviraj-BlackItalic.ttf",
+      "sha1": "44d2d05cf866ba313ccb14407101b12b321c230a"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Bold.ttf",
+      "sha1": "3ab6e16578d59118235eba30335e530b20be02f1"
+    },
+    {
+      "path": "assets/fonts/Taviraj-BoldItalic.ttf",
+      "sha1": "0d5703eea503f0578373234df7e04f19e81edb7f"
+    },
+    {
+      "path": "assets/fonts/Taviraj-ExtraBold.ttf",
+      "sha1": "d3b4f96a381bffc11a56975ea93a071e77b71572"
+    },
+    {
+      "path": "assets/fonts/Taviraj-ExtraBoldItalic.ttf",
+      "sha1": "f65dc464d66b22f74d781dd358dea1848033f989"
+    },
+    {
+      "path": "assets/fonts/Taviraj-ExtraLight.ttf",
+      "sha1": "ffa2a47853cde7648c2a5baf7c391b686e2bcd6e"
+    },
+    {
+      "path": "assets/fonts/Taviraj-ExtraLightItalic.ttf",
+      "sha1": "93affd264f859861eae123297de3c2f0882b5a12"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Italic.ttf",
+      "sha1": "69680abaff4ba660a9e8cf89fd5f38c6e7d1ecaf"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Light.ttf",
+      "sha1": "82e19bca2e35f7d8849ccc888ab95fbcb3dce0e5"
+    },
+    {
+      "path": "assets/fonts/Taviraj-LightItalic.ttf",
+      "sha1": "f8c1e8331cabb29641c9fa313a927a1e49c1156a"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Medium.ttf",
+      "sha1": "ed631e643a787783baba6fa0b4deff00e1790410"
+    },
+    {
+      "path": "assets/fonts/Taviraj-MediumItalic.ttf",
+      "sha1": "b0558c22db8739c0c9cf5099422eac9d20e8eb68"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Regular.ttf",
+      "sha1": "e213e60de3e3ee4a50ed9a4e133d47c2c575d948"
+    },
+    {
+      "path": "assets/fonts/Taviraj-SemiBold.ttf",
+      "sha1": "d2d21f562cbdaa2306d87a3fb06f4980db128891"
+    },
+    {
+      "path": "assets/fonts/Taviraj-SemiBoldItalic.ttf",
+      "sha1": "e10b13c8d306f15fde3c4daad17c41484d4d58df"
+    },
+    {
+      "path": "assets/fonts/Taviraj-Thin.ttf",
+      "sha1": "a0276afdcbab786d75a63c8bb02d0c7452cc12b5"
+    },
+    {
+      "path": "assets/fonts/Taviraj-ThinItalic.ttf",
+      "sha1": "b7e0ad568e77f259aaa63bb0e939347987180dd4"
+    }
+  ]
+}
