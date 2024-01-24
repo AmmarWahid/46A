@@ -14,6 +14,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import logo from '../../Assets/loginlogo.png';
 import back from '../../Assets/back.png';
 import LinearGradient from 'react-native-linear-gradient';
+import {AvoidSoftInput} from 'react-native-avoid-softinput';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -22,6 +24,20 @@ import {
 import {useNavigation} from '@react-navigation/native';
 const Login = () => {
   const navigation = useNavigation();
+  const [value, setValue] = React.useState({
+    email: '',
+    password: '',
+  });
+  const onFocusEffect = React.useCallback(() => {
+    AvoidSoftInput.setShouldMimicIOSBehavior(true);
+    AvoidSoftInput.setEnabled(true);
+    return () => {
+      AvoidSoftInput.setEnabled(false);
+      AvoidSoftInput.setShouldMimicIOSBehavior(false);
+    };
+  }, []);
+
+  useFocusEffect(onFocusEffect);
 
   const [selected, setSelected] = useState(0);
   const btn = useCallback(n => {
@@ -64,10 +80,22 @@ const Login = () => {
             marginTop: responsiveHeight(5),
           }}>
           <View style={styles.txt_input}>
-            <TextInput placeholder="Your Email" placeholderTextColor={'#000'} />
+            <TextInput
+              placeholder="Your Email"
+              style={{color: '#000'}}
+              placeholderTextColor={'#000'}
+              value={value.email}
+              onChangeText={pre => setValue(txt => ({...txt, email: pre}))}
+            />
           </View>
           <View style={styles.txt_input}>
-            <TextInput placeholder="Password" placeholderTextColor={'#000'} />
+            <TextInput
+              placeholder="Password"
+              style={{color: '#000'}}
+              placeholderTextColor={'#000'}
+              value={value.password}
+              onChangeText={pre => setValue(txt => ({...txt, password: pre}))}
+            />
           </View>
         </View>
 

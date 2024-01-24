@@ -19,10 +19,31 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-
+import {AvoidSoftInput} from 'react-native-avoid-softinput';
+import {useFocusEffect} from '@react-navigation/native';
 const Signup = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(0);
+  const [value, setValue] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+  });
+  console.log('value.firstname', value.firstname);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const onFocusEffect = React.useCallback(() => {
+    AvoidSoftInput.setShouldMimicIOSBehavior(true);
+    AvoidSoftInput.setEnabled(true);
+    return () => {
+      AvoidSoftInput.setEnabled(false);
+      AvoidSoftInput.setShouldMimicIOSBehavior(false);
+    };
+  }, []);
+
+  useFocusEffect(onFocusEffect);
+
   const btn = useCallback(n => {
     setSelected(n);
   }, []);
@@ -63,18 +84,39 @@ const Signup = () => {
             marginTop: responsiveHeight(3),
           }}>
           <View style={styles.txt_input}>
-            <TextInput placeholder="User Name" placeholderTextColor={'#000'} />
-          </View>
-          <View style={styles.txt_input}>
-            <TextInput placeholder="Your Email" placeholderTextColor={'#000'} />
-          </View>
-          <View style={styles.txt_input}>
-            <TextInput placeholder="Password" placeholderTextColor={'#000'} />
+            <TextInput
+              placeholder="First Name"
+              style={{color: '#000'}}
+              placeholderTextColor={'#000'}
+              value={value.firstname}
+              onChangeText={pre => setValue(txt => ({...txt, firstname: pre}))}
+            />
           </View>
           <View style={styles.txt_input}>
             <TextInput
-              placeholder="Confirm Password"
+              placeholder="Last Name"
+              style={{color: '#000'}}
               placeholderTextColor={'#000'}
+              value={value.lastname}
+              onChangeText={pre => setValue(txt => ({...txt, lastname: pre}))}
+            />
+          </View>
+          <View style={styles.txt_input}>
+            <TextInput
+              placeholder="email"
+              style={{color: '#000'}}
+              placeholderTextColor={'#000'}
+              value={value.email}
+              onChangeText={pre => setValue(txt => ({...txt, email: pre}))}
+            />
+          </View>
+          <View style={styles.txt_input}>
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor={'#000'}
+              style={{color: '#000'}}
+              value={value.password}
+              onChangeText={pre => setValue(txt => ({...txt, password: pre}))}
             />
           </View>
         </View>

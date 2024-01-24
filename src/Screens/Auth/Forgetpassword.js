@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const Forget = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = React.useState('');
   return (
     <ImageBackground
       source={logo}
@@ -68,7 +69,13 @@ const Forget = () => {
             marginTop: responsiveHeight(5),
           }}>
           <View style={styles.txt_input}>
-            <TextInput placeholder="Your Email" placeholderTextColor={'#000'} />
+            <TextInput
+              placeholder="Your Email"
+              style={{color: '#000'}}
+              placeholderTextColor={'#000'}
+              value={email}
+              onChangeText={setEmail(email)}
+            />
           </View>
         </View>
 

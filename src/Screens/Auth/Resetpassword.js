@@ -22,6 +22,10 @@ import {useNavigation} from '@react-navigation/native';
 
 const ResetPassword = () => {
   const navigation = useNavigation();
+  const [value, setValue] = React.useState({
+    password: '',
+    resetPasswordVerificationCode: '',
+  });
   return (
     <ImageBackground
       source={logo}
@@ -67,12 +71,23 @@ const ResetPassword = () => {
             marginTop: responsiveHeight(5),
           }}>
           <View style={styles.txt_input}>
-            <TextInput placeholder="OTP" placeholderTextColor={'#000'} />
+            <TextInput
+              placeholder="OTP"
+              style={{color: '#000'}}
+              placeholderTextColor={'#000'}
+              value={value.resetPasswordVerificationCode}
+              onChangeText={pre =>
+                setValue(txt => ({...txt, resetPasswordVerificationCode: pre}))
+              }
+            />
           </View>
           <View style={styles.txt_input}>
             <TextInput
               placeholder="New Password"
               placeholderTextColor={'#000'}
+              style={{color: '#000'}}
+              value={value.password}
+              onChangeText={pre => setValue(txt => ({...txt, password: pre}))}
             />
           </View>
         </View>
