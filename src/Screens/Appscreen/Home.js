@@ -23,14 +23,17 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, currentImageIndex}) => {
   const icons = [
     {
       img: require('./../../Assets/p1.jpg'),
       img1: require('./../../Assets/p2.jpg'),
     },
   ];
-
+  console.log(
+    currentImageIndex,
+    '==================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+  );
   return (
     <SafeAreaView
       edges={['bottom']}
