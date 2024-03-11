@@ -80,9 +80,12 @@ android {
         applicationId "com.catullus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 4
         versionName "1.0"
+        multiDexEnabled true 
+
     }
+    
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -90,26 +93,47 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+       release {
+       storeFile file('my-release-key.keystore')
+       storePassword 'android'
+       keyAlias 'my-key-alias'
+       keyPassword 'android'
     }
+    }
+
+
+
+
+
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug    
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            minifyEnabled true
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    bundle {
+        language {
+            // Exclude invalid languages
+            enableSplit = false
+        }
+    }
+
+
+
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
-     implementation project(':react-native-push-notification')
+    //  implementation project(':react-native-push-notification')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

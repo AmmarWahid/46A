@@ -6,9 +6,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View,KeyboardAvoidingView,Platform
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import logo from '../../Assets/loginlogo.png';
 import back from '../../Assets/back.png';
@@ -19,10 +19,63 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import {useForgetpasswordMutation} from '../../Store/Auth';
+import MsgModal from '../../Common/Loader';
+import useToast from '../../Hooks';
+import {AvoidSoftInput} from 'react-native-avoid-softinput';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Forget = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = useState('');
+  const {showToast} = useToast();
+  const [isLoading,setIsloading]=useState(false)
+  const [setforget, {}] = useForgetpasswordMutation();
+  const handleforget = async () => {
+    // console.log(res);
+    let body = {
+      email: email,
+    };
+
+    // if (!email) {
+    //   return showToast('error', 'Error', "email mus", 5000);
+    // }
+
+    try {
+      setIsloading(true)
+      const response = await setforget(body);
+      console.log('response', response);
+
+      if (response.data) {
+        setIsloading(false)
+        navigation.replace('resetpassword', {id: response.data.data.id});
+      }
+      if (response.error) {
+        setIsloading(false)
+        showToast('error', 'Error', response.error.data.message, 5000);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsloading(false)
+      showToast('error', 'Error', error.error, 5000);
+    }
+  };
+//   const onFocusEffect = useCallback(() => {
+//     AvoidSoftInput.setShouldMimicIOSBehavior(true);
+//     AvoidSoftInput.setEnabled(true);
+//     return () => {
+//       AvoidSoftInput.setEnabled(false);
+//       AvoidSoftInput.setShouldMimicIOSBehavior(false);
+   
+//     };
+//   }, []);
+
+//  useFocusEffect(onFocusEffect);
+useEffect(()=>{
+
+  AvoidSoftInput.setShouldMimicIOSBehavior(true);
+    AvoidSoftInput.setEnabled(true);
+},[])
   return (
     <ImageBackground
       source={logo}
@@ -35,6 +88,13 @@ const Forget = () => {
         backgroundColor={'transparent'}
       />
 
+
+<KeyboardAvoidingView
+  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+  style={{flex: 1}}
+>
+
+      {isLoading ? <MsgModal loader={true} /> : null}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
@@ -74,15 +134,20 @@ const Forget = () => {
               style={{color: '#000'}}
               placeholderTextColor={'#000'}
               value={email}
-              onChangeText={setEmail(email)}
+              autoCapitalize='none'
+              onChangeText={r => setEmail(r)}
             />
           </View>
         </View>
 
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('resetpassword');
-          }}>
+          onPress={
+            handleforget
+
+            // () => {
+            // navigation.navigate('resetpassword');
+            // }
+          }>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
@@ -92,6 +157,7 @@ const Forget = () => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };

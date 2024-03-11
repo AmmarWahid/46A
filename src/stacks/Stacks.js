@@ -20,7 +20,14 @@ import Profile from '../Screens/Appscreen/Profile';
 import h from './../Assets/home.png';
 import fav from './../Assets/heart.png';
 import pro from './../Assets/user.png';
-import {responsiveHeight} from 'react-native-responsive-dimensions';
+import BootSplash from "react-native-bootsplash";
+
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {useSelector} from 'react-redux';
+import FavRead from '../Screens/Appscreen/FavRead';
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'intro',
   screenOptions: {
@@ -32,7 +39,7 @@ const RootStack = createNativeStackNavigator({
     login: Login,
     forgetpassword: Forget,
     resetpassword: ResetPassword,
-    MyTabs: MyTabs,
+    // MyTabs: MyTabs,
   },
 });
 
@@ -41,75 +48,115 @@ const Tab = createBottomTabNavigator();
 
 export function MyTabs() {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: '#B27E19',
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: '#FFB424',
-          position: 'absolute',
-          paddingBottom: responsiveHeight(2),
-          borderTopLeftRadius: responsiveHeight(6),
-          paddingVertical: responsiveHeight(6),
-          borderTopRightRadius: responsiveHeight(6),
-        },
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Image
-              source={h}
-              style={{tintColor: color, height: size, width: size}}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          tabBarLabel: 'notification',
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          tabBarActiveTintColor: '#000',
+          tabBarInactiveTintColor: '#B27E19',
+          tabBarShowLabel: false,
+
+          headerShown: false,
           tabBarStyle: {
-            display: 'none',
+            backgroundColor: '#FFB424',
+            position: 'absolute',
+            paddingBottom: responsiveHeight(2),
+            borderTopLeftRadius: responsiveHeight(6),
+            paddingVertical: responsiveHeight(6),
+            borderTopRightRadius: responsiveHeight(6),
           },
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="Favourites"
-        component={Favourites}
-        options={{
-          tabBarLabel: 'Updates',
-          tabBarIcon: ({color, size}) => (
-            <Image
-              source={fav}
-              style={{tintColor: color, height: size, width: size}}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({color, size}) => (
-            <Image
-              source={pro}
-              style={{tintColor: color, height: size, width: size}}
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarLabel: 'Home',
+            unmountOnBlur: true,
+            tabBarIcon: ({color, size}) => (
+              <Image
+                source={h}
+                style={{
+                  tintColor: color,
+                  height: responsiveWidth(8),
+                  width: responsiveWidth(8),
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Notifications"
+          component={Notifications}
+          options={{
+            unmountOnBlur: true,
+            tabBarLabel: 'notification',
+            tabBarStyle: {
+              display: 'none',
+            },
+            tabBarButton: () => null,
+          }}
+        />
+        <Tab.Screen
+          name="FavRead"
+          component={FavRead}
+          options={{
+            unmountOnBlur: true,
+            // tabBarLabel: 'notification',
+            tabBarStyle: {
+              display: 'none',
+            },
+            tabBarButton: () => null,
+          }}
+        />
+        <Tab.Screen
+          name="Favourites"
+          component={Favourites}
+          options={{
+            tabBarLabel: 'Updates',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                source={fav}
+                style={{
+                  tintColor: color,
+                  height: responsiveWidth(8),
+                  width: responsiveWidth(8),
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                source={pro}
+                style={{
+                  tintColor: color,
+                  height: responsiveWidth(8),
+                  width: responsiveWidth(8),
+                }}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 export default function Routes() {
-  return <Navigation />;
+  const Valid = useSelector(state => state.Slice.isValid);
+  React.useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+    };
+
+    init().finally(async () => {
+      await BootSplash.hide({ fade: true });
+      console.log("BootSplash has been hidden successfully");
+    });
+  }, []);
+  return Valid ? <MyTabs /> : <Navigation />;
 }

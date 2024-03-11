@@ -17,12 +17,35 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {useDeleteUserMutation, useGetusersQuery} from '../../Store/Main';
+import {useDispatch, useSelector} from 'react-redux';
+import {logoutUser} from '../../Store/Slice';
+import MsgModal from '../../Common/Loader';
 const Profile = () => {
+  const id = useSelector(state => state.Slice.id);
+  const dispatch = useDispatch();
+  const {data, isLoading} = useGetusersQuery(id);
+  const [handledlt, {data: Data}] = useDeleteUserMutation();
+
+  const handlelogout = async () => {
+    dispatch(logoutUser());
+  };
+
+  const handleD = async () => {
+    const res=await handledlt(id)
+    dispatch(logoutUser());
+
+  };
+
+
+
+  console.log(data);
   return (
     <SafeAreaView
       edges={['bottom']}
       style={{flex: 1, backgroundColor: '#F6F5F0'}}>
       <StatusBar barStyle={'dark-content'} backgroundColor={'transparent'} />
+      {isLoading ? <MsgModal loader={true} /> : null}
       <View
         style={{
           flex: 0.3,
@@ -45,10 +68,15 @@ const Profile = () => {
           />
 
           <Text style={styles.welcome}>Welcome Back</Text>
-          <Text style={styles.name}>John Smith</Text>
+          <Text numberOfLines={1} style={styles.name}>
+            {data?.data?.firstname} {data?.data?.lastname}
+          </Text>
+          <Text numberOfLines={2} style={styles.welcome}>
+            {data?.data?.email}
+          </Text>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handlelogout}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 2, y: 0}}
@@ -57,6 +85,19 @@ const Profile = () => {
             <Text style={[styles.btnText]}>Log Out</Text>
           </LinearGradient>
         </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={handleD}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 2, y: 0}}
+            colors={['#FFB424', '#D86E06']}
+            style={styles.linearGradient}>
+            <Text style={[styles.btnText]}>Delete Account</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+
       </View>
     </SafeAreaView>
   );
@@ -83,16 +124,21 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'Taviraj-Regular',
     color: '#000',
-    fontSize: responsiveFontSize(5),
+    fontSize: responsiveFontSize(4),
     textAlign: 'center',
     bottom: responsiveHeight(5),
+    width: responsiveWidth(90),
+
+    alignSelf: 'center',
   },
   welcome: {
     fontFamily: 'Taviraj-Regular',
     color: '#000',
-    fontSize: responsiveFontSize(2.3),
+    fontSize: responsiveFontSize(2.1),
     textAlign: 'center',
-    bottom: responsiveHeight(5),
+    bottom: responsiveHeight(6),
+    width: responsiveWidth(90),
+    alignSelf: 'center',
   },
   linearGradient: {
     height: responsiveHeight(7),
@@ -101,7 +147,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: responsiveHeight(4),
+    marginTop: responsiveHeight(2),
+    bottom: responsiveHeight(2),
   },
   btnText: {
     fontSize: responsiveFontSize(2.2),

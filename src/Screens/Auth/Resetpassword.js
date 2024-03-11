@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View,KeyboardAvoidingView,Platform
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -19,33 +19,82 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import {useResetpasswordMutation} from '../../Store/Auth';
+import useToast from '../../Hooks';
+import MsgModal from '../../Common/Loader';
+import {AvoidSoftInput} from 'react-native-avoid-softinput';
 
-const ResetPassword = () => {
+
+const ResetPassword = ({route}) => {
+  const {id} = route.params || {};
+  // console.log(id);
   const navigation = useNavigation();
-  const [value, setValue] = React.useState({
+  const {showToast} = useToast();
+  const [isLoading,setIsloading]=useState(false)
+
+  const [value, setValue] = useState({
     password: '',
     resetPasswordVerificationCode: '',
   });
+  const [setreset, {isError,}] = useResetpasswordMutation();
+  const handleresetpassword = async () => {
+    let body = {
+      data: {
+        password: value.password,
+        resetPasswordVerificationCode: value.resetPasswordVerificationCode,
+      },
+      id,
+    };
+
+    try {
+      setIsloading(true)
+
+      const response = await setreset(body);
+      // console.log('response', response);
+      if (response.data) {
+      setIsloading(false)
+        showToast('success', 'Wow', response.data.message, 5000);
+        navigation.replace('login');
+      }
+      if (response.error) {
+      setIsloading(false)
+        showToast('error', 'Error', response.error.data.message, 5000);
+      }
+    } catch (error) {
+      setIsloading(false)
+
+    }
+  };
+
   return (
     <ImageBackground
       source={logo}
       style={{
         flex: 1,
       }}>
+         <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
       <StatusBar
         translucent={true}
         barStyle={'dark-content'}
         backgroundColor={'transparent'}
       />
+     
 
+      {isLoading ? <MsgModal loader={true} /> : null}
+       {/* <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}> */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
-            navigation.pop();
+            navigation.goBack();
           }}>
           <Image resizeMode="contain" source={back} style={styles.back} />
         </TouchableOpacity>
-        <TouchableOpacity></TouchableOpacity>
+       
       </View>
       <View style={{flex: 0.6}}>
         <View>
@@ -92,7 +141,7 @@ const ResetPassword = () => {
           </View>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleresetpassword}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
@@ -102,6 +151,7 @@ const ResetPassword = () => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };

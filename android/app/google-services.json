@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "54983403170",
-    "project_id": "catullas",
-    "storage_bucket": "catullas.appspot.com"
+    "project_number": "233037159496",
+    "project_id": "catullas-84a3d",
+    "storage_bucket": "catullas-84a3d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54983403170:android:15f222dcb25cd6893f19fb",
+        "mobilesdk_app_id": "1:233037159496:android:1adbecac11453f20d58c7d",
         "android_client_info": {
           "package_name": "com.catullus"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBUiwRRA6luS0XKQacdWI9wM3OcfUC8fsU"
+          "current_key": "AIzaSyDPzd-uMv_IgGfkzRTCuYg9_6v38_mcbp4"
         }
       ],
       "services": {
